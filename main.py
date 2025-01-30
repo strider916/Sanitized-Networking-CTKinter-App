@@ -72,7 +72,7 @@ class MainApp(ctk.CTk):
                 print(f"Error: The icon file {icon_path} does not exist in the directory.")
 
     def reload_apps(self):
-        # Generate Frames
+        # Re-Initialize App Frames
         self.app_1_frame = App1Frame(self)
         self.app_2_frame = App2Frame(self)
         self.app_3_frame = App3Frame(self)
