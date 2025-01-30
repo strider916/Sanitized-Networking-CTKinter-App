@@ -1,7 +1,6 @@
 import customtkinter as ctk
 import os
 from platform import system
-# Static GUI Variables
 PAD_X = 5
 PAD_Y = 5
 CORNER_RADIUS = 5
@@ -32,24 +31,23 @@ class MainApp(ctk.CTk):
         self.columnconfigure(0, weight=0)
         self.columnconfigure(2, weight=1)
 
-        # Create Objects
+        # Initialize UI objects
         self.title_frame = TitleFrame(self)
         self.menu_frame = MenuFrame(self)
-        self.default_app = DefaultApp(self)
         self.app_1_frame = App1Frame(self)
         self.app_2_frame = App2Frame(self)
         self.app_3_frame = App3Frame(self)
         self.app_4_frame = App3Frame(self)
+        self.default_app = DefaultApp(self)
 
         # Place Objects
         self.title_frame.grid(row=0, column=0, columnspan=3, pady=(0, PAD_Y*.5), sticky="ew")
         self.menu_frame.grid(row=1, column=0, padx=PAD_X, pady=PAD_Y, sticky="nsew")
-        self.default_app.grid(row=1, column=1, columnspan=2, padx=(PAD_X, PAD_X * 1.5), pady=PAD_Y, sticky="nsew")
         self.app_1_frame.grid(row=1, column=1, columnspan=2, padx=(PAD_X, PAD_X*1.5), pady=PAD_Y, sticky="nsew")
         self.app_2_frame.grid(row=1, column=1, columnspan=2, padx=(PAD_X, PAD_X*1.5), pady=PAD_Y, sticky="nsew")
         self.app_3_frame.grid(row=1, column=1, columnspan=2, padx=(PAD_X, PAD_X*1.5), pady=PAD_Y, sticky="nsew")
         self.app_4_frame.grid(row=1, column=1, columnspan=2, padx=(PAD_X, PAD_X*1.5), pady=PAD_Y, sticky="nsew")
-        self.default_app.tkraise()
+        self.default_app.grid(row=1, column=1, columnspan=2, padx=(PAD_X, PAD_X * 1.5), pady=PAD_Y, sticky="nsew")
 
     def set_window_icon_based_on_os(self):
         """Sets the window icon based on the operating system."""
@@ -93,11 +91,11 @@ class TitleFrame(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
 
-        # Grid Config
+        # Grid Configuration/Variables
         self.grid_rowconfigure(0, weight=1)  # Row 0 for the title (no expansion)
         self.grid_columnconfigure(0, weight=1)  # Single column, takes full width
 
-        # Create Objects
+        # Initialize UI objects
         self.title_label = ctk.CTkLabel(self, text="App Title Frame",
                                         font=("Typewriter", 16, "bold"))
 
@@ -118,18 +116,17 @@ class TitleFrame(ctk.CTkFrame):
 # Base Frame for all app buttons
 class MenuFrame(ctk.CTkFrame):
 
-    def __init__(self, master: 'MainApp'):  # Specify the type of master as MainApp
+    def __init__(self, master: 'MainApp'):
         super().__init__(master)
         self.master = master
 
+        # Grid Configuration/Variables
         self.apps = ["App 1", "App 2", "App 3", "App 4"]
         self.switch_var = ctk.StringVar(value="Dark Mode")
-
-        # Grid Config
         self.configure(corner_radius=CORNER_RADIUS)
         self.rowconfigure(9, weight=1)
 
-        # Create buttons for MenuFrame
+        # Initialize UI objects
         self.app_1 = ctk.CTkButton(self, text=self.apps[0], command=lambda: self.handle_app(0))
         self.app_2 = ctk.CTkButton(self, text=self.apps[1], command=lambda: self.handle_app(1))
         self.app_3 = ctk.CTkButton(self, text=self.apps[2], command=lambda: self.handle_app(2))
@@ -137,7 +134,7 @@ class MenuFrame(ctk.CTkFrame):
         self.ui_switch = ctk.CTkSwitch(self, text="Dark Mode", variable=self.switch_var, onvalue="Dark Mode",
                                        offvalue="Light Mode", command=self.theme_switcher)
 
-        # Place buttons
+        # Place objects
         self.app_1.grid(row=1, column=0, padx=PAD_X, pady=(20, 10), sticky="ew")
         self.app_2.grid(row=2, column=0, padx=PAD_X, pady=10, sticky="ew")
         self.app_3.grid(row=3, column=0, padx=PAD_X, pady=10, sticky="ew")
@@ -158,16 +155,13 @@ class MenuFrame(ctk.CTkFrame):
             print(f"{self.apps[app_index]} selected")
 
     def theme_switcher(self):
-        """ Switch appearance mode and update switch text """
-        # Switch the appearance mode
         if ctk.get_appearance_mode() == "Dark":
             ctk.set_appearance_mode("Light")
-            self.ui_switch.configure(text="Light Mode")  # Update text to "Light Mode"
+            self.ui_switch.configure(text="Light Mode")
         else:
             ctk.set_appearance_mode("Dark")
-            self.ui_switch.configure(text="Dark Mode")  # Update text to "Dark Mode"
+            self.ui_switch.configure(text="Dark Mode")
 
-        # After switching appearance mode, update the title frame's text color.
         self.master.title_frame.change_title_frame()
 
 
@@ -176,14 +170,12 @@ class DefaultApp(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
 
-        # Frame Configuration/Variables
+        # Grid Configuration/Variables
         self.configure(corner_radius=CORNER_RADIUS)
-
-        # Grid Config
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
 
-        # Create Objects
+        # Initialize UI objects
         self.default_label = ctk.CTkLabel(self, text="Waiting for app selection...")
 
         # Place Objects
@@ -194,13 +186,11 @@ class App1Frame(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
 
-        # App Configuration/Variables
-
-        # Grid Config
+        # Grid Configuration/Variables
         self.rowconfigure(3, weight=1)
         self.columnconfigure([0, 10], weight=1)
 
-        # Create Objects
+        # Initialize UI objects
         self.close_button = ctk.CTkButton(self, text="Close", width=30, command=self.master.reload_apps)
         self.placeholder = ctk.CTkLabel(self, text="Additional App Here")
 
@@ -219,7 +209,7 @@ class App2Frame(ctk.CTkFrame):
         self.rowconfigure(3, weight=1)
         self.columnconfigure([0, 10], weight=1)
 
-        # Create Objects
+        # Initialize UI objects
         self.close_button = ctk.CTkButton(self, text="Close", width=30, command=self.master.reload_apps)
         self.placeholder = ctk.CTkLabel(self, text="Additional App Here")
 
@@ -238,7 +228,7 @@ class App3Frame(ctk.CTkFrame):
         self.rowconfigure(3, weight=1)
         self.columnconfigure([0, 10], weight=1)
 
-        # Create Objects
+        # Initialize UI objects
         self.close_button = ctk.CTkButton(self, text="Close", width=30, command=self.master.reload_apps)
         self.placeholder = ctk.CTkLabel(self, text="Additional App Here")
 
@@ -257,7 +247,7 @@ class App4Frame(ctk.CTkFrame):
         self.rowconfigure(3, weight=1)
         self.columnconfigure([0, 10], weight=1)
 
-        # Create Objects
+        # Initialize UI objects
         self.close_button = ctk.CTkButton(self, text="Close", width=30, command=self.master.reload_apps)
         self.placeholder = ctk.CTkLabel(self, text="Additional App Here")
 
