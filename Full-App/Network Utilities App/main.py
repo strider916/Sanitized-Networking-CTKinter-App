@@ -135,7 +135,7 @@ class MainApp(ctk.CTk):
         popup.rowconfigure(1, weight=1)
 
 
-# CCHCS Title Frame
+# Title Frame
 class TitleFrame(ctk.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
@@ -468,7 +468,7 @@ class App1Frame(ctk.CTkFrame):
                 try:
                     print(f'User and RO TACACS Failed. Attempting SSH to {host["IP_Address"]} using Local.')
                     logging.critical(f'User and RO TACACS Failed. Attempting SSH to {host["IP_Address"]} using Local.')
-                    ssh.connect(hostname=host["IP_Address"], username="cchcs", password=self.local_pwd.get(), timeout=3)
+                    ssh.connect(hostname=host["IP_Address"], username="localuser", password=self.local_pwd.get(), timeout=3)
                     print(f'Local authentication to {host["IP_Address"]} was successful.')
                     logging.warning(f'Local authentication to {host["IP_Address"]} was successful.')
                     device_dict["Status"] = "Local authentication Successful"
